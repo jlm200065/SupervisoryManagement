@@ -1,0 +1,16 @@
+org\example\system\service\impl\SysUserServiceImpl.class
+org\example\system\service\impl\SysResourceServiceImpl.class
+org\example\system\mapper\SysRoleMapper.class
+org\example\system\domin\SysResource.class
+org\example\system\domin\vo\SysUserVo.class
+org\example\system\service\impl\SysRoleServiceImpl.class
+org\example\system\mapper\SysResourceMapper.class
+org\example\system\domin\SysRole.class
+org\example\system\domin\SysUser.class
+org\example\system\service\SysResourceService.class
+org\example\system\service\SysUserService.class
+org\example\system\domin\LoginUser.class
+org\example\system\domin\SysRoleResource.class
+org\example\system\mapper\SysUserMapper.class
+org\example\system\mapper\SysRoleResourceMapper.class
+org\example\system\service\SysRoleService.class

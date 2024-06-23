@@ -1,0 +1,6 @@
+org\example\web\controller\system\SysResourceController.class
+org\example\web\controller\engine\PubSubController.class
+org\example\web\controller\system\SysRoleController.class
+org\example\AdminApplication.class
+org\example\web\controller\BaseController.class
+org\example\web\controller\system\SysUserController.class

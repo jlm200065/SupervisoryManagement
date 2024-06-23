@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.example.system.mapper.EngineMapper">
+
+    <resultMap id="EngineVoMap" type="org.example.system.domin.vo.EngineVo">
+        <id property="id" column="id"/>
+        <result property="engineType" column="engine_type"/>
+        <result property="url" column="url"/>
+        <result property="pubSubId" column="pub_sub_id"/>
+        <result property="status" column="status"/>
+        <result property="name" column="name"/>
+        <result property="pubSubName" column="pubSubName"/>
+        <result property="pubSubUrl" column="pubSubUrl"/>
+        <collection property="topics" ofType="org.example.system.domin.Topic">
+            <id property="id" column="topic_id"/>
+            <result property="topic" column="topic"/>
+        </collection>
+    </resultMap>
+
+    <select id="selectByCondition" parameterType="org.example.system.domin.dto.EngineQueryDto" resultMap="EngineVoMap">
+        SELECT e.*, ps.name AS pubSubName, ps.url AS pubSubUrl, t.id as topic_id, t.topic
+        FROM engine e
+        LEFT JOIN pub_sub ps ON e.pub_sub_id = ps.id
+        LEFT JOIN engine_topic et ON e.id = et.engine_id
+        LEFT JOIN topic t ON et.topic_id = t.id
+        WHERE 1 = 1
+        <if test="engineType != null and engineType != ''">
+            AND e.engine_type = #{engineType}
+        </if>
+        <if test="url != null and url != ''">
+            AND e.url LIKE CONCAT('%', #{url}, '%')
+        </if>
+    </select>
+
+    <select id="findEngineById" parameterType="string" resultMap="EngineVoMap">
+        SELECT e.*, ps.name AS pubSubName, ps.url AS pubSubUrl, t.id as topic_id, t.topic
+        FROM engine e
+                 LEFT JOIN pub_sub ps ON e.pub_sub_id = ps.id
+                 LEFT JOIN engine_topic et ON e.id = et.engine_id
+                 LEFT JOIN topic t ON et.topic_id = t.id
+        WHERE e.id = #{id}
+    </select>
+
+    <select id="findEngineByUrl" parameterType="string" resultType="org.example.system.domin.Engine">
+        SELECT * FROM engine WHERE url = #{url}
+    </select>
+
+    <insert id="addEngine" parameterType="org.example.system.domin.Engine">
+        INSERT INTO engine (id, engine_type, url, pub_sub_id, status, name)
+        VALUES (#{id}, #{engineType}, #{url}, #{pubSubId}, #{status}, #{name})
+    </insert>
+
+    <update id="updateEngine" parameterType="org.example.system.domin.Engine">
+        UPDATE engine
+        SET engine_type = #{engineType}, url = #{url}, pub_sub_id = #{pubSubId}, status = #{status}, name = #{name}
+        WHERE id = #{id}
+    </update>
+
+    <delete id="deleteEngine" parameterType="string">
+        DELETE FROM engine WHERE id = #{id}
+    </delete>
+
+    <update id="updateEngineStatus" parameterType="map">
+        UPDATE engine
+        SET status = #{status}
+        WHERE id = #{id}
+    </update>
+
+    <select id="findEngineByName" parameterType="string" resultType="org.example.system.domin.Engine">
+        SELECT * FROM engine WHERE name = #{name}
+    </select>
+
+
+</mapper>

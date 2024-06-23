@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.example.system.mapper.SysRoleResourceMapper">
+
+    <resultMap id="sysRoleResourceMap" type="org.example.system.domin.SysRoleResource">
+        <result property="roleId" column="role_id"></result>
+        <result property="resourceId" column="resource_id"></result>
+    </resultMap>
+
+
+    <update id="addRight" parameterType="org.example.system.domin.SysRoleResource">
+        insert into sys_role_resource(role_id, resource_id) values(#{param1}, #{param2})
+    </update>
+</mapper>
