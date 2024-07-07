@@ -32,8 +32,8 @@ public class PubSubServiceImpl implements PubSubService {
         pubSub.setId(UUID.randomUUID().toString());  // 设置 UUID
         return pubSubMapper.insert(pubSub);
     }
-
     @Override
+
     public int updatePubSub(PubSub pubSub) {
         return pubSubMapper.updateByPrimaryKey(pubSub);
     }

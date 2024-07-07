@@ -40,6 +40,8 @@ public class ShiroConfig {
         map.put("/engine/**", "anon");
         // 放行主题查询
         map.put("/topic/**", "anon");
+        // 放行流程查询
+        map.put("/process/**", "anon");
         map.put("/sysUser/login", "anon");
         map.put("/sysUser/**", "anon");
         // 放行图片查询

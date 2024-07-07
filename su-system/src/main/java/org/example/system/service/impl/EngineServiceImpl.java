@@ -47,7 +47,6 @@ public class EngineServiceImpl implements EngineService {
     @Override
     public int addOrUpdateEngine(EngineDto engineDto) {
         Engine engine = engineMapper.findEngineByName(engineDto.getName());
-
         if (engine == null) {
             // 如果名称不存在，则创建新的 Engine
             engine = new Engine();
@@ -57,7 +56,6 @@ public class EngineServiceImpl implements EngineService {
             engine.setPubSubId(engineDto.getPubSubId());
             engine.setStatus(engineDto.getStatus());
             engine.setName(engineDto.getName());
-
             updateEngineTopics(engineDto, engine);
             return engineMapper.addEngine(engine);
         } else {

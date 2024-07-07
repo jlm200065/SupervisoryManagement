@@ -38,6 +38,11 @@
     <dependencyManagement>
         <dependencies>
 
+
+
+
+
+
             <!-- shiro -->
             <dependency>
                 <groupId>org.apache.shiro</groupId>
