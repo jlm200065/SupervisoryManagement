@@ -352,8 +352,9 @@ public class BpmnPanel {
                 bound.setHeight(environmentHeight);
 
                 ParallelGateway gateway = modelInstance.getModelElementById("Gateway_0cyeibu");
-                AbstractFlowNodeBuilder<?, ?> builder = gateway.builder();
+
                 for (int i = 0; i < messageFlowInfoList.size(); i++) {
+                    AbstractFlowNodeBuilder<?, ?> builder = gateway.builder();
                     builder = builder.serviceTask("fakeService" + (i + 1))
                             .name("Fake Service " + (i + 1))
                             .connectTo("Gateway_1boer0t");
