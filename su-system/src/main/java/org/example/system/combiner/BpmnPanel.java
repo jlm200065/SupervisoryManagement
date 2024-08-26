@@ -78,6 +78,7 @@ public class BpmnPanel {
             throw new RuntimeException(e);
         }
     }
+
     public void addBpmnInfo(String bpmnContent) throws UnsupportedEncodingException {
         BpmnInfoHolder bpmnInfoHolder = new BpmnInfoHolder();
         try {
@@ -97,76 +98,6 @@ public class BpmnPanel {
         participantHolders.addAll(participantHolderList);
         List<MessageFlow> messageFlowList = bpmnInfoHolder.obtainMessageFlowList();
         messageFlowList.forEach(messageFlow -> {
-            String name = messageFlow.getName();
-            if (!StringUtils.hasText(name)) return ;
-            List<MessageFlowInfo> list = messageFlowMap.get(name);
-            if (CollectionUtils.isEmpty(list)) {
-                list = new ArrayList<>();
-                MessageFlowInfo messageFlowInfo = new MessageFlowInfo(name, messageFlow.getSource().getId(), messageFlow.getTarget().getId());
-                list.add(messageFlowInfo);
-                messageFlowMap.put(name, list);
-                return ;
-            }
-            boolean isMatched = false;
-            Iterator<MessageFlowInfo> iterator = list.iterator();
-            if (Constant.environment.equals(messageFlow.getSource().getId())) {
-                while(iterator.hasNext()) {
-                    MessageFlowInfo next = iterator.next();
-                    if (Constant.environment.equals(next.getTargetRef())) {
-                        isMatched = true;
-                        MessageFlowInfo messageFlowInfo = new MessageFlowInfo();
-                        messageFlowInfo.setName(name);
-                        messageFlowInfo.setSourceRef(next.getSourceRef());
-                        messageFlowInfo.setTargetRef(messageFlow.getTarget().getId());
-                        messageFlowInfoList.add(messageFlowInfo);
-                        iterator.remove();
-                    }
-                }
-            } else if (Constant.environment.equals(messageFlow.getTarget().getId())) {
-                while(iterator.hasNext()) {
-                    MessageFlowInfo next = iterator.next();
-                    if (Constant.environment.equals(next.getSourceRef())) {
-                        isMatched = true;
-                        MessageFlowInfo messageFlowInfo = new MessageFlowInfo();
-                        messageFlowInfo.setName(name);
-                        messageFlowInfo.setSourceRef(messageFlow.getSource().getId());
-                        messageFlowInfo.setTargetRef(next.getTargetRef());
-                        messageFlowInfoList.add(messageFlowInfo);
-                        iterator.remove();
-                    }
-                }
-            }
-            if (!isMatched) {
-                MessageFlowInfo messageFlowInfo = new MessageFlowInfo(name, messageFlow.getSource().getId(), messageFlow.getTarget().getId());
-                list.add(messageFlowInfo);
-            }
-            if (CollectionUtils.isEmpty(list)) {
-                messageFlowMap.remove(name);
-            }
-        });
-        bpmnInfoHolder.removeEnvironment();
-    }
-
-    public void addBpmnInfo(File file) {
-        BpmnInfoHolder bpmnInfoHolder = new BpmnInfoHolder();
-        try {
-            Document document = documentBuilder.parse(new FileInputStream(file));
-            bpmnInfoHolder.setDocument(document);
-        } catch (SAXException | IOException e) {
-            throw new RuntimeException(e);
-        }
-        // 获取对应的modelInstance
-        BpmnModelInstance modelInstance = Bpmn.readModelFromFile(file);
-        bpmnInfoHolder.setBpmnModelInstance(modelInstance);
-        // 预处理，将messageFlow中转折的线改为直连
-        bpmnInfoHolder.preHandle();
-        bpmnInfoHolders.add(bpmnInfoHolder);
-        // 获取该Bpmn下所有的非environment participant
-        List<ParticipantHolder> participantHolderList = bpmnInfoHolder.obtainParticipantList();
-        participantHolders.addAll(participantHolderList);
-        List<MessageFlow> messageFlowList = bpmnInfoHolder.obtainMessageFlowList();
-        messageFlowList.forEach(messageFlow -> {
-
             String name = messageFlow.getName();
             if (!StringUtils.hasText(name)) return ;
             List<MessageFlowInfo> list = messageFlowMap.get(name);
@@ -351,10 +282,13 @@ public class BpmnPanel {
                 bound.setWidth(environmentWidth);
                 bound.setHeight(environmentHeight);
 
-                ParallelGateway gateway = modelInstance.getModelElementById("Gateway_0cyeibu");
-                AbstractFlowNodeBuilder<?, ?> builder = gateway.builder();
-                for (int i = 0; i < messageFlowInfoList.size(); i++) {
-                    builder = builder.serviceTask("fakeService" + (i + 1))
+
+
+                // Generate fake services based on unmatched message flows
+                for (int i = 0; i < messageFlowMap.size(); i++) {
+                    ParallelGateway gateway = modelInstance.getModelElementById("Gateway_0cyeibu");
+                    AbstractFlowNodeBuilder<?, ?> builder = gateway.builder();
+                    builder.serviceTask("fakeService" + (i + 1))
                             .name("Fake Service " + (i + 1))
                             .connectTo("Gateway_1boer0t");
                 }
@@ -596,7 +530,7 @@ public class BpmnPanel {
             Transformer transformer = TransformerFactory.newInstance().newTransformer();
             transformer.transform(new DOMSource(document), new StreamResult(byteArrayOutputStream));
             String xmlStr = byteArrayOutputStream.toString();
-            System.out.println(xmlStr);
+//            System.out.println(xmlStr);
             return xmlStr;
         } catch (Exception e) {
             throw new RuntimeException(e);
