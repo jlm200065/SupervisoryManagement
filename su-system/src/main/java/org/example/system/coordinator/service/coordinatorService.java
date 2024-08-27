@@ -17,8 +17,8 @@ public class coordinatorService {
     @Autowired
     private ProcessService processService;
 
-    @Autowired
-    private combineProcessFactory combiner;
+//    @Autowired
+//    private combineProcessFactory combiner;
 
     public List<List<ProcessInCoordinator>>  selectAndCombineProcess() throws UnsupportedEncodingException {
         List<Process> allProcesses = processService.findAll();
@@ -27,6 +27,7 @@ public class coordinatorService {
             ProcessInCoordinator processInCoordinator = resolveProcessFactory.resolveProcessByText(process.getBpmn(), process.getId());
             processInCoordinatorList.add(processInCoordinator);
         }
+        combineProcessFactory combiner = new combineProcessFactory();
         return combiner.allCombineList(processInCoordinatorList);
     }
 

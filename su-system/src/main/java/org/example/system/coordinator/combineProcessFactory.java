@@ -4,7 +4,7 @@ import org.springframework.stereotype.Component;
 
 import java.util.*;
 
-@Component
+//@Component
 public class combineProcessFactory {
     public List<List<ProcessInCoordinator>> res = new ArrayList<>();
     public List<List<ProcessInCoordinator>> allCombineList(List<ProcessInCoordinator> processInCoordinatorList){
