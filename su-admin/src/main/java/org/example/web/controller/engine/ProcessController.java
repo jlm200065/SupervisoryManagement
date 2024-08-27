@@ -8,6 +8,7 @@ import org.example.system.service.ProcessService;
 import org.example.web.controller.BaseController;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+import org.example.system.coordinator.service.coordinatorService;
 
 import java.io.UnsupportedEncodingException;
 import java.util.List;
@@ -19,11 +20,27 @@ public class ProcessController extends BaseController {
     @Autowired
     private ProcessService processService;
 
-    // 分页查询 Process 实体
+    @Autowired
+    private coordinatorService coordinatorService;
+
+
+    // 根据 ID 获取特定的 Process 实体
+    @GetMapping("/getAllCombination")
+    public ResponseResult getAllCombination() throws UnsupportedEncodingException {
+        return getResult(coordinatorService.selectAndCombineProcess());
+    }
+
     @PostMapping("/all")
     public ResponseResult findProcessesByPage(@RequestBody ProcessQueryDto queryDto) {
         System.out.println("QueryDTO: " + queryDto.toString());
         List<Process> data = processService.findProcessesByPage(queryDto);
+        return getResult(data);
+    }
+
+
+    @PostMapping("/getCombineProcess")
+    public ResponseResult getCombineProcess(@RequestBody List<String> processIds) {
+        List<Process> data = processService.getCombineProcess(processIds);
         return getResult(data);
     }
 

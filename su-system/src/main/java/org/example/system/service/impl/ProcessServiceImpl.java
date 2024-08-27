@@ -8,6 +8,8 @@ import org.example.system.service.ProcessService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.UUID;
 
@@ -47,5 +49,17 @@ public class ProcessServiceImpl implements ProcessService {
     public List<Process> findProcessesByPage(ProcessQueryDto queryDto) {
         PageHelper.startPage(queryDto.getPageNum(), queryDto.getPageSize());
         return processMapper.selectByCondition(queryDto);
+    }
+
+    @Override
+    public List<Process> getCombineProcess(List<String> processIds) {
+        List<Process> processes = processMapper.selectAll();
+        List<Process> targetProcesses = new ArrayList<>();
+        for (org.example.system.domain.Process process : processes) {
+            if (processIds.contains(process.getId())){
+                targetProcesses.add(process);
+            }
+        }
+        return targetProcesses;
     }
 }

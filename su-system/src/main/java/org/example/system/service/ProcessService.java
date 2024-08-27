@@ -17,4 +17,6 @@ public interface ProcessService {
     int deleteProcess(String id);
 
     List<Process> findProcessesByPage(ProcessQueryDto queryDto);
+
+    List<Process> getCombineProcess(List<String> processIds);
 }
