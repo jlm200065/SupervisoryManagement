@@ -12,4 +12,9 @@
             AND engine_category LIKE CONCAT('%', #{engineCategory}, '%')
         </if>
     </select>
+    <select id="findProcessByNameExpectSelf" parameterType="map" resultType="org.example.system.domain.Process">
+        SELECT * FROM process
+        WHERE name = #{name}
+          AND id != #{id}
+    </select>
 </mapper>

@@ -8,4 +8,5 @@ import java.util.List;
 
 public interface ProcessMapper extends Mapper<Process> {
     List<Process> selectByCondition(ProcessQueryDto queryDto);
+    List<Process> findProcessByNameExpectSelf(String name, String id);
 }

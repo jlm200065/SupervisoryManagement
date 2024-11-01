@@ -22,7 +22,9 @@ public class Process implements Serializable {
     private String delegatedMessageIn;
     private String delegatedMessageOut;
     private String bpmn;
+    private String bpmnSingle;
     private String name;
     private String origin;
     private String engineCategory;
+    private Integer weight;
 }

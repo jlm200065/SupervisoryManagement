@@ -35,6 +35,8 @@ public class ProcessServiceImpl implements ProcessService {
         return processMapper.insert(process);
     }
 
+
+
     @Override
     public int updateProcess(Process process) {
         return processMapper.updateByPrimaryKey(process);
@@ -44,6 +46,12 @@ public class ProcessServiceImpl implements ProcessService {
     public int deleteProcess(String id) {
         return processMapper.deleteByPrimaryKey(id);
     }
+
+    @Override
+    public List<Process> findProcessByNameExpectSelf(String name, String id) {
+        return processMapper.findProcessByNameExpectSelf(name, id);
+    }
+
 
     @Override
     public List<Process> findProcessesByPage(ProcessQueryDto queryDto) {
