@@ -7,7 +7,29 @@ public class ProcessInCoordinator {
     String participant;
     Set<String> MessageSent;
     Set<String> MessageReceived;
+    int weight;
 
+    public ProcessInCoordinator(String participant, int weight) {
+        this.participant = participant;
+        MessageSent = new HashSet<String>();;
+        this.weight = weight;
+        MessageReceived = new HashSet<String>();;
+    }
+
+    public int getWeight() {
+        return weight;
+    }
+
+    public ProcessInCoordinator(String participant, Set<String> messageSent, int weight, Set<String> messageReceived) {
+        this.participant = participant;
+        MessageSent = messageSent;
+        this.weight = weight;
+        MessageReceived = messageReceived;
+    }
+
+    public void setWeight(int weight) {
+        this.weight = weight;
+    }
 
     public String getParticipant() {
         return participant;

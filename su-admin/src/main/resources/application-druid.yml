@@ -8,6 +8,11 @@ spring:
       username: root
       password: c207ed1b6b22ddda
 
+
+#      url: jdbc:mysql://192.168.1.5:3306/process_engine?useUnicode=true&characterEncoding=utf8&zeroDateTimeBehavior=convertToNull&useSSL=true&serverTimezone=GMT%2B8
+#      username: root
+#      password: 123456
+
       # 初始连接数
       initialSize: 5
       # 最小连接池数量

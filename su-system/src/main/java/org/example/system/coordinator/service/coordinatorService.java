@@ -24,7 +24,8 @@ public class coordinatorService {
         List<Process> allProcesses = processService.findAll();
         List<ProcessInCoordinator> processInCoordinatorList = new ArrayList<>();
         for (Process process : allProcesses) {
-            ProcessInCoordinator processInCoordinator = resolveProcessFactory.resolveProcessByText(process.getBpmn(), process.getId());
+            System.out.println("test," + process.getWeight());
+            ProcessInCoordinator processInCoordinator = resolveProcessFactory.resolveProcessByText(process.getBpmn(), process.getId(), process.getWeight());
             processInCoordinatorList.add(processInCoordinator);
         }
         combineProcessFactory combiner = new combineProcessFactory();
