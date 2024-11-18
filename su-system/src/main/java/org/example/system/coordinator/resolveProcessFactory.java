@@ -59,7 +59,7 @@ public class resolveProcessFactory {
     }
 
 
-    public static ProcessInCoordinator resolveProcessByText(String bpmnContent, String participantId) throws UnsupportedEncodingException {
+    public static ProcessInCoordinator resolveProcessByText(String bpmnContent, String participantId, int weight) throws UnsupportedEncodingException {
         try {
             Document document = documentBuilder.parse(new InputSource(new ByteArrayInputStream(bpmnContent.getBytes("UTF-8"))));
         } catch (SAXException | IOException e) {
@@ -68,7 +68,7 @@ public class resolveProcessFactory {
         // 获取对应的modelInstance
         BpmnModelInstance modelInst = Bpmn.readModelFromStream(new ByteArrayInputStream(bpmnContent.getBytes("UTF-8")));
         Collection<MessageFlow> messageFlowList = modelInst.getModelElementsByType(MessageFlow.class);
-        ProcessInCoordinator processInCoordinator = new ProcessInCoordinator(participantId);
+        ProcessInCoordinator processInCoordinator = new ProcessInCoordinator(participantId, weight);
         Iterator<MessageFlow> messageFlowIterator = messageFlowList.iterator();
         while (messageFlowIterator.hasNext()) {
             MessageFlow messageFlow = messageFlowIterator.next();
